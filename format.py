@@ -30,10 +30,13 @@ for root, dirs, files in os.walk(path):
                 line = file.readline()
                 if not line:
                     break
-                lines.append(line[:-1])
+                if line[-1] == '\n':
+                    line = line[:-1]
+                lines.append(line)
 
         with open(os.path.join(root, filename),'w') as file:
-            for line in lines:
+            for i, line in enumerate(lines):
                 if not line.isspace():
                     file.write(line)
-                file.write('\n')
+                if not line.isspace() or len(lines)-1 != i:
+                    file.write('\n')
